@@ -1,0 +1,61 @@
+# Reload functions
+super + Escape
+	"$XDG_CONFIG_HOME"/sxhkd/functions
+alt + d 
+	rofi -modi drun,run -show drun
+alt + Tab
+	rofi -show window
+alt + shift + e
+	bspc quit
+alt + q
+	bspc node -c
+alt + shift + q
+	bspc node -k
+alt + Return
+	xfce4-terminal
+alt + shift + Return
+	kitty
+#focus window (node in bspwm)
+alt + {h,j,k,l,semicolon}
+	bspc node -f {west,south,north,east}
+alt + {_,shift + }{h,j,k,l}
+	bspc node -{f,s} {west,south,north,east}
+alt + shift + r 
+	pkill bspwmbar && bspc wm -r && pkill -USR1 -x sxhkd
+#alt + ctrl + r
+#	pkill -USR1 -x sxhkd
+
+super + alt + p
+	bspc config focus_follows_pointer {true,false}
+# Switching between workspaces
+# Focus selected desktop
+alt + {1,2,6}
+    bspc desktop -f 'DP-0:^{1,2,3}'
+
+alt + {3,4,5}
+    bspc desktop -f 'HDMI-0:^{1,2,3}'
+
+# Move window to selected desktop
+alt + shift + {1,2,6}
+    bspc node -d 'DP-0:^{1,2,3}'
+
+alt + shift + {3,4,5}
+    bspc node -d 'HDMI-0:^{1,2,3}'
+
+# Swapping from tiles to tabbed mode
+alt + e
+    bspc desktop -l tiled
+alt + w
+    bspc desktop -l monocle
+#window float
+alt + f
+	bspc node -t '~floating'
+alt + {Left,Down,Up,Right}
+	bspc node -v {-20 0,0 20,0 -20,20 0}
+# expand a window by moving one of its side outward
+super + alt + {h,j,k,l}
+	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+
+# contract a window by moving one of its side inward
+super + alt + shift + {h,j,k,l}
+	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
