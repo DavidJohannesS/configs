@@ -11,6 +11,13 @@ Plug 'kyazdani42/nvim-web-devicons' " For file icons
 Plug 'm4xshen/autoclose.nvim'
 Plug 'tpope/vim-fugitive'
 Plug 'neovim/nvim-lspconfig'
+Plug 'arcticicestudio/nord-vim'
+Plug 'morhetz/gruvbox'
+Plug 'rose-pine/neovim'
+Plug 'folke/tokyonight.nvim'
+Plug 'andymass/vim-matchup'
+Plug 'josethz00/neovim-like-vscode'
+Plug 'tomasiser/vim-code-dark'
 call plug#end()
 
 " Enable filetype plugins
@@ -39,7 +46,7 @@ cmp.setup({
 })
 EOF
 
-" For Nvim-Tree
+" For Nvim-Tree"
 lua << EOF
 require'nvim-tree'.setup {
   -- your configuration here
@@ -50,12 +57,24 @@ local lspconfig = require'lspconfig'
 lspconfig.ccls.setup {}  -- replace 'ccls' with your preferred C++ language server
 lspconfig.tsserver.setup{}
 EOF
-" Map F3 to toggle nvim-tree
+" Map F3 to toggle nvim-tree"
 nnoremap <F3> :NvimTreeToggle<CR>
 
-" Enable icons in nvim-tree
+" Enable icons in nvim-tree"
 let g:webdevicons_enable_nerdfont = 1
 set background=dark
-colorscheme solarized
+" let g:tokyonight_style = 'storm'"
+let g:rose_pine_variant = 'moon'
+colorscheme tokyonight
+" After setting the colorscheme, add the following:
+highlight cType guifg=#ebbcba
+highlight cVariable guifg=#ebbcba
+highlight cFunction guifg=#31748f
+highlight cClass guifg=#eb6f92
+highlight Operator guifg=#ebbcba
+highlight Delimiter guifg=#31748f"
+
+
+let g:matchup_matchparen_offscreen = {'method': 'status'}
 set showmatch
 
