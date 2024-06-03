@@ -1,5 +1,5 @@
-call plug#begin('$HOME/AppData/Local/nvim/plugged')
 
+call plug#begin('~/.local/share/nvim/plugged')
 " Autocomplete
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-buffer'
