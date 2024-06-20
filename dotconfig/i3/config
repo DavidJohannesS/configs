@@ -9,9 +9,9 @@
 for_window [class="^.*"] border pixel 3
 # Remove border of floating windows
 for_window [floating] border pixel 0
-#client.focused #013220 #013220 #ffffff #2e9ef4
-client.focused #00000000 #00000000 #00000000 #00000000
-client.unfocused #00000000 #00000000 #00000000 #00000000
+client.focused #013220 #013220 #ffffff #2e9ef4
+#client.focused #00000000 #00000000 #00000000 #00000000
+client.unfocused #013220 #013220 #ffffff #2e9ef4
 
 # i3 config file (v4)
 #
