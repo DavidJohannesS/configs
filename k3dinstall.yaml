@@ -1,0 +1,46 @@
+---
+- name: Setup k3d container and connect to K3s server
+  hosts: localhost
+  connection: local
+  become: yes
+  vars:
+    k3s_server_ip: "{{ hostvars['localhost']['k3s_server_ip'] }}"
+    k3s_token: "{{ hostvars['localhost']['k3s_token'] }}"
+  tasks:
+    - name: Install dependencies
+      apt:
+        name: 
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+        state: present
+        update_cache: yes
+
+    - name: Start Docker service
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Install k3d
+      shell: |
+        curl -s https://raw.githubusercontent.com/rancher/k3d/main/install.sh | bash
+      args:
+        creates: /usr/local/bin/k3d
+
+    - name: Create k3d cluster
+      shell: |
+        k3d cluster create mycluster --agents 1 --wait --k3s-arg "--server=https://{{ k3s_server_ip }}:6443@server:0" --k3s-arg "--token={{ k3s_token }}@server:0"
+      register: k3d_cluster_creation
+      failed_when: "'Failed to create cluster' in k3d_cluster_creation.stderr"
+
+    - name: Delete existing k3d cluster if creation failed
+      shell: k3d cluster delete mycluster
+      when: "'Failed to create cluster' in k3d_cluster_creation.stderr"
+      ignore_errors: yes
+
+    - name: Retry creating k3d cluster
+      shell: |
+        k3d cluster create mycluster --agents 1 --wait --k3s-arg "--server=https://{{ k3s_server_ip }}:6443@server:0" --k3s-arg "--token={{ k3s_token }}@server:0"
+      when: "'Failed to create cluster' in k3d_cluster_creation.stderr"
+

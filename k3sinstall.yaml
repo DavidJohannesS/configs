@@ -1,0 +1,44 @@
+---
+- name: Setup k3s
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Install dependencies
+      apt:
+        name: 
+          - curl
+          - apt-transport-https
+          - ca-certificates
+        state: present
+        update_cache: yes
+
+    - name: Download and install k3s
+      shell: |
+        curl -sfL https://get.k3s.io | sh -
+      args:
+        creates: /usr/local/bin/k3s
+
+    - name: Ensure k3s service is running
+      systemd:
+        name: k3s
+        state: started
+        enabled: yes
+
+    - name: Get k3s node token
+      shell: cat /var/lib/rancher/k3s/server/node-token
+      register: k3s_token
+
+    - name: Save k3s node token to file
+      copy:
+        content: "{{ k3s_token.stdout }}"
+        dest: /tmp/k3s_token
+
+    - name: Get k3s server IP
+      command: hostname -I
+      register: server_ip
+
+    - name: Save k3s server IP to file
+      copy:
+        content: "{{ server_ip.stdout }}"
+        dest: /tmp/k3s_server_ip
+

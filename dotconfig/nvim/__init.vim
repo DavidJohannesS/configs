@@ -90,4 +90,4 @@ highlight Delimiter guifg=#31748f
 
 let g:matchup_matchparen_offscreen = {'method': 'status'}
 set showmatch
-
+set scrolloff=8

@@ -1,0 +1,22 @@
+version: '3'
+services:
+  redmine:
+    image: 'redmine'
+    restart: always
+    ports:
+      - '8881:3000'
+    volumes:
+      - './redmine-data:/usr/src/redmine/files'
+    environment:
+      REDMINE_DB_MYSQL: 'db'
+      REDMINE_DB_PASSWORD: 'example'
+
+  db:
+    image: 'mariadb'
+    restart: always
+    volumes:
+      - './mariadb-data:/var/lib/mysql'
+    environment:
+      MYSQL_ROOT_PASSWORD: 'example'
+      MYSQL_DATABASE: 'redmine'
+
